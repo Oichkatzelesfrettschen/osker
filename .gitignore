@@ -1,0 +1,12 @@
+# Ignore compiled Haskell files
+*.o
+*.hi
+*.dyn_o
+*.dyn_hi
+# Build logs
+build.log
+
+
+# Editor swap files
+*~
+.*.sw?

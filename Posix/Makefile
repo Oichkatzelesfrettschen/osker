@@ -9,6 +9,8 @@ include ../dirs.mk
 HC        = ghc
 INCS      = 
 HCFLAGS   = $(DEFS) $(OPTS) -cpp -syslib concurrent -syslib data
+# Enable warnings for easier debugging
+HCFLAGS  += -Wall
 HS_IGNORE = Test.hs
 HS_SRCS   = ${filter-out ${HS_IGNORE}, $(wildcard *.hs)}
 OBJS      = $(addsuffix .o,$(basename $(HS_SRCS)))
