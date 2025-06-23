@@ -7,6 +7,11 @@ set -euo pipefail
 # Print each command before executing so that failures are easy to spot
 set -x
 
+# Default optimization flags for the Haskell compiler.  Users may
+# override these by setting the HASKELL_OPTS environment variable before
+# invoking this script.
+HASKELL_OPTS=${HASKELL_OPTS:-"-O3 -Wall -fllvm -threaded -rtsopts -with-rtsopts=-N"}
+
 # Display available tmux related packages so they can be installed if desired.
 list_tmux_packages() {
     apt-cache search tmux | awk '{print "    " $0}'
@@ -30,8 +35,9 @@ install_packages() {
 build_osker() {
     (
         cd Posix && \
-        make --debug=v quick 2>&1 | tee ../build.log
+        make --debug=v HCFLAGS="$HASKELL_OPTS" quick 2>&1 | tee ../build.log
     ) || true
+    echo "USED FLAGS: $HASKELL_OPTS" >> build.log
 }
 
 # Install a default tmux configuration tailored for development.
